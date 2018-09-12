@@ -1,23 +1,84 @@
-import * as React from 'react';
-import './App.css';
+import * as React from "react";
+import {
+  AppShell,
+  BoardContainer,
+  BodyContent,
+  Cell,
+  P1Cell,
+  P2Cell
+} from "./App.css";
 
-import logo from './logo.svg';
+const enum Player {
+  None = 0,
+  One = 1,
+  Two = 2
+}
 
-class App extends React.Component {
+interface IState {
+  board: Player[];
+  nextPlayer: Player;
+}
 
+class App extends React.Component<{}, IState> {
+  public state = {
+    board: [
+      Player.None,
+      Player.None,
+      Player.None,
+      Player.None,
+      Player.None,
+      Player.None,
+      Player.None,
+      Player.None,
+      Player.None
+    ],
+    nextPlayer: Player.One
+  };
 
+  public createOnClickHandler = (index: number) => {
+    const { board, nextPlayer } = this.state;
+    const newBoard = board.slice();
+    newBoard[index] = nextPlayer;
+
+    this.setState({ board: newBoard, nextPlayer: 3 - nextPlayer });
+  };
+
+  public renderCell = (index: number) => {
+    const { board } = this.state;
+    return (
+      <div>
+        {board[index] === 0 && (
+          <Cell onClick={() => this.createOnClickHandler(index)} />
+        )}
+
+        {board[index] === 1 && (
+          <P1Cell onClick={() => this.createOnClickHandler(index)} />
+        )}
+
+        {board[index] === 2 && (
+          <P2Cell onClick={() => this.createOnClickHandler(index)} />
+        )}
+      </div>
+    );
+  };
+
+  public renderBoard = () => {
+    const { board } = this.state;
+    return (
+      <BoardContainer>
+        {board.map((value, key) => this.renderCell(key))}
+      </BoardContainer>
+    );
+  };
 
   public render() {
+    console.log(this.state.nextPlayer);
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <AppShell>
+        <h1>Typescript Tic-Tac-Toe</h1>
+        <BodyContent>{this.renderBoard()}</BodyContent>
+      </AppShell>
     );
   }
 }
