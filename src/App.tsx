@@ -8,6 +8,9 @@ import {
   P2Cell
 } from "./App.css";
 
+type GAME_IN_PROGRESS = -1;
+const GAME_IN_PROGRESS = -1;
+
 const enum Player {
   None = 0,
   One = 1,
@@ -17,6 +20,7 @@ const enum Player {
 interface IState {
   board: Player[];
   nextPlayer: Player;
+  gameOver: Player | GAME_IN_PROGRESS;
 }
 
 class App extends React.Component<{}, IState> {
@@ -32,15 +36,76 @@ class App extends React.Component<{}, IState> {
       Player.None,
       Player.None
     ],
+    gameOver: GAME_IN_PROGRESS,
     nextPlayer: Player.One
   };
 
   public createOnClickHandler = (index: number) => {
     const { board, nextPlayer } = this.state;
+
+    if (board[index] !== Player.None) {
+      return;
+    }
+
     const newBoard = board.slice();
     newBoard[index] = nextPlayer;
+    const gameOver = this.checkGameOver(newBoard);
 
-    this.setState({ board: newBoard, nextPlayer: 3 - nextPlayer });
+    this.setState({ board: newBoard, nextPlayer: 3 - nextPlayer, gameOver });
+  };
+
+  public checkGameOver = (board: Player[]) => {
+    if (
+      board[0] === board[1] &&
+      board[1] === board[2] &&
+      board[2] !== Player.None
+    ) {
+      return board[0];
+    } else if (
+      board[3] === board[4] &&
+      board[4] === board[5] &&
+      board[5] !== Player.None
+    ) {
+      return board[3];
+    } else if (
+      board[6] === board[7] &&
+      board[7] === board[8] &&
+      board[8] !== Player.None
+    ) {
+      return board[6];
+    } else if (
+      board[0] === board[3] &&
+      board[3] === board[6] &&
+      board[5] !== Player.None
+    ) {
+      return board[3];
+    } else if (
+      board[1] === board[4] &&
+      board[4] === board[7] &&
+      board[7] !== Player.None
+    ) {
+      return board[2];
+    } else if (
+      board[2] === board[5] &&
+      board[5] === board[8] &&
+      board[5] !== Player.None
+    ) {
+      return board[3];
+    } else if (
+      board[0] === board[4] &&
+      board[4] === board[8] &&
+      board[8] !== Player.None
+    ) {
+      return board[0];
+    } else if (
+      board[2] === board[4] &&
+      board[4] === board[6] &&
+      board[6] !== Player.None
+    ) {
+      return board[2];
+    } else {
+      return -1;
+    }
   };
 
   public renderCell = (index: number) => {
@@ -62,6 +127,23 @@ class App extends React.Component<{}, IState> {
     );
   };
 
+  public renderPlayerTurn = () => {
+    const { gameOver } = this.state;
+
+    const winningText =
+      gameOver !== Player.None
+        ? `Player ${gameOver} won`
+        : `The game is a draw`;
+
+    return (
+      <div>
+        {"player 1 is blue"} <br />
+        {"player 2 is red"} <br />
+        {gameOver === GAME_IN_PROGRESS ? "ongoing game" : winningText}
+      </div>
+    );
+  };
+
   public renderBoard = () => {
     const { board } = this.state;
     return (
@@ -78,6 +160,7 @@ class App extends React.Component<{}, IState> {
       <AppShell>
         <h1>Typescript Tic-Tac-Toe</h1>
         <BodyContent>{this.renderBoard()}</BodyContent>
+        {this.renderPlayerTurn()}
       </AppShell>
     );
   }
