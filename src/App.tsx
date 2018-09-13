@@ -132,14 +132,14 @@ class App extends React.Component<{}, IState> {
 
     const winningText =
       gameOver !== Player.None
-        ? `Player ${gameOver} won`
-        : `The game is a draw`;
+        ? `Player ${gameOver} wins`
+        : `Cat's game!`;
 
     return (
       <div>
-        {"player 1 is blue"} <br />
-        {"player 2 is red"} <br />
-        {gameOver === GAME_IN_PROGRESS ? "ongoing game" : winningText}
+        {"Player 1 is blue"} <br />
+        {"Player 2 is red"} <br />
+        {gameOver === GAME_IN_PROGRESS ? "Ongoing game" : winningText}
       </div>
     );
   };

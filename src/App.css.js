@@ -6,7 +6,8 @@ export const AppShell = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-
+  padding: 1rem;
+  
   h1 {
     padding: 1rem;
   }
