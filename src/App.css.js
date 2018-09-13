@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const AppShell = styled.div`
   width: 100vw;
@@ -7,7 +7,7 @@ export const AppShell = styled.div`
   justify-content: center;
   flex-direction: column;
   padding: 1rem;
-  
+
   h1 {
     padding: 1rem;
   }
@@ -31,12 +31,15 @@ export const Cell = styled.div`
   opacity: 0.4;
   border: 1px dashed black;
   box-sizing: border-box;
-  transition: opacity 0.2s ease-in-out;
-
+  transition: opacity 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   &:hover {
     cursor: pointer;
     //background-color: #d7d7d7;
     opacity: 1;
+  }
+
+  &:active {
+    box-shadow: inset 0 2px 1px 1px rgba(0, 0, 0, 0.4);
   }
 `;
 
