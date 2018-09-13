@@ -76,21 +76,21 @@ class App extends React.Component<{}, IState> {
     } else if (
       board[0] === board[3] &&
       board[3] === board[6] &&
-      board[5] !== Player.None
+      board[6] !== Player.None
     ) {
-      return board[3];
+      return board[0];
     } else if (
       board[1] === board[4] &&
       board[4] === board[7] &&
       board[7] !== Player.None
     ) {
-      return board[2];
+      return board[1];
     } else if (
       board[2] === board[5] &&
       board[5] === board[8] &&
       board[5] !== Player.None
     ) {
-      return board[3];
+      return board[2];
     } else if (
       board[0] === board[4] &&
       board[4] === board[8] &&
@@ -131,9 +131,7 @@ class App extends React.Component<{}, IState> {
     const { gameOver } = this.state;
 
     const winningText =
-      gameOver !== Player.None
-        ? `Player ${gameOver} wins`
-        : `Cat's game!`;
+      gameOver !== Player.None ? `Player ${gameOver} wins` : `Cat's game!`;
 
     return (
       <div>
